@@ -21,14 +21,17 @@ Then run the following composer command:
 
     composer require putyourlightson/craft-sift
 
+## Fieldtype
+
+The plugin provides a _Read-only Categories_ fieldtype that is visible to all users but that only admins can edit.
+
 ## Configuration
 
 Copy the `src/config.php` config file to `craft/config` as `sift.php`, adding the category field handle to filter entries/categories by.
-```
-return [
-    'categoryFieldHandle' => 'categories',
-];
-```
+
+    return [
+        'categoryFieldHandle' => 'categories',
+    ];
 
 ## License
 

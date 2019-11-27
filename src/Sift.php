@@ -12,6 +12,9 @@ use craft\elements\db\ElementQuery;
 use craft\elements\db\ElementQueryInterface;
 use craft\elements\db\EntryQuery;
 use craft\events\CancelableEvent;
+use craft\events\RegisterComponentTypesEvent;
+use craft\services\Fields;
+use putyourlightson\sift\fields\ReadonlyCategories;
 use putyourlightson\sift\models\SettingsModel;
 use yii\base\Event;
 
@@ -29,9 +32,21 @@ class Sift extends Plugin
     {
         parent::init();
 
+        // Register custom fieldtype
+        Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES,
+            function(RegisterComponentTypesEvent $event) {
+                $event->types[] = ReadonlyCategories::class;
+            }
+        );
+
+        // Set up handlers for CP requests only
+        if (!Craft::$app->getRequest()->getIsCpRequest()) {
+            return;
+        }
+
         $user = Craft::$app->getUser()->getIdentity();
 
-        if ($user === null || !Craft::$app->getRequest()->getIsCpRequest()) {
+        if ($user === null) {
             return;
         }
 

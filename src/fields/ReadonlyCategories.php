@@ -7,7 +7,7 @@ namespace putyourlightson\sift\fields;
 
 use craft\fields\Categories;
 
-class AdminCategories extends Categories
+class ReadonlyCategories extends Categories
 {
     // Static
     // =========================================================================
@@ -17,6 +17,6 @@ class AdminCategories extends Categories
      */
     public static function displayName(): string
     {
-        return 'Admin Categories';
+        return 'Read-only Categories';
     }
 }
