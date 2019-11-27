@@ -31,7 +31,7 @@ class Sift extends Plugin
 
         $user = Craft::$app->getUser()->getIdentity();
 
-        if ($user === null || !Craft::$app->getRequest()->getIsConsoleRequest()) {
+        if ($user === null || !Craft::$app->getRequest()->getIsCpRequest()) {
             return;
         }
 
