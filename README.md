@@ -26,7 +26,9 @@ Then run the following composer command:
 Copy the `src/config.php` config file to `craft/config` as `sift.php`, adding the category field handle to filter entries/categories by.
 
     return [
-        'categoryFieldHandle' => 'categories',
+        '*' => [
+            'categoryFieldHandle' => 'categories',
+        ],
     ];
 
 ## Fieldtype
