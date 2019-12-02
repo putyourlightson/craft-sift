@@ -18,8 +18,10 @@
  */
 
 return [
-    /**
-     * The category field handle to filter entries/categories by
-     */
-    'categoryFieldHandle' => 'userCategories',
+    '*' => [
+        /**
+         * The category field handle to filter entries/categories by
+         */
+        'categoryFieldHandle' => 'userCategories',
+    ],
 ];

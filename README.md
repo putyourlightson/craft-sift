@@ -15,15 +15,11 @@ Install the plugin by first copying the plugin directory into a directory called
             "type": "path",
             "url": "./plugins/*"
         }
-    ]
+    ],
 
 Then run the following composer command:
 
     composer require putyourlightson/craft-sift
-
-## Fieldtype
-
-The plugin provides a _Read-only Categories_ fieldtype that is visible to all users but that only admins can edit.
 
 ## Configuration
 
@@ -32,6 +28,10 @@ Copy the `src/config.php` config file to `craft/config` as `sift.php`, adding th
     return [
         'categoryFieldHandle' => 'categories',
     ];
+
+## Fieldtype
+
+The plugin adds a _Read-only Categories_ fieldtype that is visible to all users but that only admins can edit.
 
 ## License
 

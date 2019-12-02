@@ -48,18 +48,21 @@ class Sift extends Plugin
             return;
         }
 
+        // Ensure user exists
         $user = Craft::$app->getUser()->getIdentity();
 
         if ($user === null) {
             return;
         }
 
+        // Ensure category field handle setting exists
         $categoryFieldHandle = $this->settings->categoryFieldHandle;
 
         if ($categoryFieldHandle === null) {
             return;
         }
 
+        // Ensure category field exists
         /** @var Categories $categoryField */
         $categoryField = Craft::$app->getFields()->getFieldByHandle($categoryFieldHandle);
 
@@ -90,7 +93,7 @@ class Sift extends Plugin
 
                 // If the category group ID is not the same as that of the field source
                 if ($query->groupId != $groupId) {
-                    //$query->relatedTo($categories);
+                    $query->relatedTo($categories);
                 }
             }
         );
