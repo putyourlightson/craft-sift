@@ -9,27 +9,42 @@ Craft CMS 3.0.0 or later.
 ## Installation
 
 Install the plugin by first copying the plugin directory into a directory called `plugins` (in the Craft project path) and then add the following code to the main `composer.json` file:
-
-    "repositories": [
-        {
-            "type": "path",
-            "url": "./plugins/*"
-        }
-    ],
-
+```json
+"repositories": [
+    {
+        "type": "path",
+        "url": "./plugins/*"
+    }
+],
+```
 Then run the following composer command:
-
-    composer require putyourlightson/craft-sift
+```
+composer require putyourlightson/craft-sift
+```
 
 ## Configuration
 
-Copy the `src/config.php` config file to `craft/config` as `sift.php`, adding the category field handle to filter entries/categories by.
+Copy the `src/config.php` config file to `craft/config` as `sift.php`, adding the category field handles to filter entries/categories by.
+```php
+return [
+    '*' => [
+        /**
+         * The category field handles to filter entries/categories by
+         */
+        'categoryFieldHandles' => ['categoriesA', 'categoriesB'],
 
-    return [
-        '*' => [
-            'categoryFieldHandle' => 'categories',
-        ],
-    ];
+        /**
+         * The `relatedTo` key to use for entry queries
+         */
+        'entryRelatedToKey' => 'targetElement',
+
+        /**
+         * The `relatedTo` key to use for category queries
+         */
+        'categoryRelatedToKey' => 'sourceElement',
+    ],
+];
+```
 
 ## Fieldtype
 
