@@ -36,11 +36,6 @@ class Sift extends Plugin
             }
         );
 
-        // Ensure CP request
-        if (Craft::$app->getRequest()->getIsCpRequest()) {
-            return;
-        }
-
         $user = Craft::$app->getUser()->getIdentity();
 
         //  Ensure user is logged in and not an admin
