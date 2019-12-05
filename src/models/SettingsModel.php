@@ -15,15 +15,5 @@ class SettingsModel extends Model
     /**
      * @var string[]|array
      */
-    public $categoryFieldHandles = [];
-
-    /**
-     * @var string
-     */
-    public $entryRelatedToKey = 'targetElement';
-
-    /**
-     * @var string
-     */
-    public $categoryRelatedToKey = 'sourceElement';
+    public $entryFieldHandles = [];
 }

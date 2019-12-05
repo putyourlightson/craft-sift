@@ -24,25 +24,17 @@ composer require putyourlightson/craft-sift
 
 ## Configuration
 
-Copy the `src/config.php` config file to `craft/config` as `sift.php`, adding the category field handles to filter entries/categories by.
+Copy the `src/config.php` config file to `craft/config` as `sift.php`, adding the entry field handles and the associated user field handles.
 ```php
 return [
     '*' => [
         /**
-         * The category field handles to filter entries/categories by
+         * The field handles to sift by for entry queries
          */
-        'categoryFieldHandles' => ['categoriesA', 'categoriesB'],
-
-        /**
-         * The `relatedTo` key to use for entry queries
-         */
-        'entryRelatedToKey' => 'targetElement',
-
-        /**
-         * The `relatedTo` key to use for category queries
-         */
-        'categoryRelatedToKey' => 'sourceElement',
-    ],
+        'entryFieldHandles' => [
+            'entryFieldHandleA' => 'userFieldHandleA',
+            'entryFieldHandleB' => 'userFieldHandleB',
+        ],
 ];
 ```
 
