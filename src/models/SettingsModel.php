@@ -13,7 +13,17 @@ class SettingsModel extends Model
     // =========================================================================
 
     /**
-     * @var string|null
+     * @var string[]|array
      */
-    public $categoryFieldHandle;
+    public $categoryFieldHandles = [];
+
+    /**
+     * @var string
+     */
+    public $entryRelatedToKey = 'targetElement';
+
+    /**
+     * @var string
+     */
+    public $categoryRelatedToKey = 'sourceElement';
 }

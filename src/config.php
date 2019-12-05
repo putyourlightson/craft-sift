@@ -20,8 +20,18 @@
 return [
     '*' => [
         /**
-         * The category field handle to filter entries/categories by
+         * The category field handles to filter entries/categories by
          */
-        'categoryFieldHandle' => 'userCategories',
+        'categoryFieldHandles' => ['categoriesA', 'categoriesB'],
+
+        /**
+         * The `relatedTo` key to use for entry queries
+         */
+        'entryRelatedToKey' => 'targetElement',
+
+        /**
+         * The `relatedTo` key to use for category queries
+         */
+        'categoryRelatedToKey' => 'sourceElement',
     ],
 ];
