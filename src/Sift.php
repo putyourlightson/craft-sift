@@ -7,12 +7,9 @@ namespace putyourlightson\sift;
 
 use Craft;
 use craft\base\Plugin;
-use craft\elements\Category;
 use craft\elements\db\CategoryQuery;
 use craft\elements\db\EntryQuery;
-use craft\elements\User;
 use craft\events\RegisterComponentTypesEvent;
-use craft\helpers\ElementHelper;
 use craft\services\Fields;
 use putyourlightson\sift\fields\ReadonlyCategories;
 use putyourlightson\sift\models\SettingsModel;
