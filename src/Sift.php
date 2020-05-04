@@ -13,29 +13,69 @@ use craft\events\RegisterComponentTypesEvent;
 use craft\services\Fields;
 use putyourlightson\sift\fields\ReadonlyCategories;
 use putyourlightson\sift\models\SettingsModel;
+use putyourlightson\sift\services\QueriesService;
+use verbb\workflow\elements\db\SubmissionQuery;
 use yii\base\Event;
 
 /**
  * Sift plugin
  *
+ * @property QueriesService $queries
  * @property SettingsModel $settings
  */
 class Sift extends Plugin
 {
-    // Public Methods
-    // =========================================================================
+    /**
+     * @var Sift $plugin
+     */
+    static public $plugin;
 
     public function init()
     {
         parent::init();
 
-        // Register custom fieldtype
+        self::$plugin = $this;
+
+        $this->_registerComponents();
+        $this->_registerFieldTypes();
+        $this->_registerEvents();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function createSettingsModel(): SettingsModel
+    {
+        return new SettingsModel();
+    }
+
+    /**
+     * Registers the components.
+     */
+    private function _registerComponents()
+    {
+        $this->setComponents([
+            'queries' => QueriesService::class,
+        ]);
+    }
+
+    /**
+     * Registers the field types.
+     */
+    private function _registerFieldTypes()
+    {
         Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES,
             function(RegisterComponentTypesEvent $event) {
                 $event->types[] = ReadonlyCategories::class;
             }
         );
+    }
 
+    /**
+     * Registers the events.
+     */
+    private function _registerEvents()
+    {
         $user = Craft::$app->getUser()->getIdentity();
 
         //  Ensure user is logged in and not an admin
@@ -46,68 +86,21 @@ class Sift extends Plugin
         // Handle entry queries
         Event::on(EntryQuery::class,
             EntryQuery::EVENT_BEFORE_PREPARE,
-            [$this, 'handleEntryQuery']
+            [$this->queries, 'handleEntryQuery']
         );
 
         // Handle category queries
         Event::on(CategoryQuery::class,
             CategoryQuery::EVENT_BEFORE_PREPARE,
-            [$this, 'handleCategoryQuery']
+            [$this->queries, 'handleCategoryQuery']
         );
-    }
 
-    /**
-     * @param Event $event
-     */
-    public function handleEntryQuery(Event $event)
-    {
-        /** @var EntryQuery $query */
-        $query = $event->sender;
-
-        // Ensure the query is not limited to 1
-        if ($query->limit == 1) {
-            return;
+        // Handle submission queries
+        if (class_exists(SubmissionQuery::class)) {
+            Event::on(SubmissionQuery::class,
+                SubmissionQuery::EVENT_BEFORE_PREPARE,
+                [$this->queries, 'handleSubmissionQuery']
+            );
         }
-
-        $user = Craft::$app->getUser()->getIdentity();
-
-        $relatedTo = ['or'];
-
-        foreach ($this->settings->entryFieldHandles as $entryFieldHandle => $userFieldHandle) {
-            $userCategoryIds = $user->{$userFieldHandle}->ids();
-
-            if (!empty($userCategoryIds)) {
-                $relatedTo[] = [
-                    'field' => $entryFieldHandle,
-                    'targetElement' => $userCategoryIds,
-                ];
-            }
-        }
-
-        $query->relatedTo($relatedTo);
-    }
-
-    /**
-     * @param Event $event
-     */
-    public function handleCategoryQuery(Event $event)
-    {
-        /** @var CategoryQuery $query */
-        $query = $event->sender;
-
-        $user = Craft::$app->getUser()->getIdentity();
-
-        $query->relatedTo(['sourceElement' => $user]);
-    }
-
-    // Protected Methods
-    // =========================================================================
-
-    /**
-     * @inheritdoc
-     */
-    protected function createSettingsModel(): SettingsModel
-    {
-        return new SettingsModel();
     }
 }

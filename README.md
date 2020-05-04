@@ -1,6 +1,6 @@
 # Sift Plugin for Craft CMS 3
 
-A plugin for Craft CMS 3 that filters entries/categories that can be selected to only those that match a user's categories.
+A plugin for Craft CMS 3 that filters entries/categories/submissions that can be selected to only those that match a user's categories.
 
 ## Requirements
 
@@ -27,6 +27,7 @@ return [
             'entryFieldHandleA' => 'userFieldHandleA',
             'entryFieldHandleB' => 'userFieldHandleB',
         ],
+    ],
 ];
 ```
 
