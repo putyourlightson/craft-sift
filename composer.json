@@ -1,7 +1,7 @@
 {
     "name": "putyourlightson/craft-sift",
     "description": "Filters entries/categories/submissions that can be selected to only those that match a user's categories.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "type": "craft-plugin",
     "license": "mit",
     "require": {

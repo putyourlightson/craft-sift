@@ -29,6 +29,12 @@ class QueriesService extends Component
             return;
         }
 
+        // Don't filter queries that are indexes
+        if ($query->indexBy !== null) {
+            return;
+        }
+
+
         $this->_applyEntryQueryRelation($query);
     }
 
@@ -53,15 +59,21 @@ class QueriesService extends Component
         /** @var SubmissionQuery $query */
         $query = $event->sender;
 
-        $entryQuery = Entry::find()
-            ->drafts()
-            ->status(null);
+        // Ensure the query is not limited to 1
+        if ($query->limit == 1) {
+            return;
+        }
 
+        // Ensure that the submission's owner (entry or draft) fulfills the relations
+        $entryQuery = Entry::find()->status(null);
         $this->_applyEntryQueryRelation($entryQuery);
-
         $entryIds = $entryQuery->ids();
 
-        $query->andWhere(['ownerId' => $entryIds]);
+        $draftEntryQuery = Entry::find()->drafts()->status(null);
+        $this->_applyEntryQueryRelation($draftEntryQuery);
+        $draftEntryIds = $draftEntryQuery->ids();
+
+        $query->andWhere(['ownerId' => array_merge($entryIds, $draftEntryIds)]);
     }
 
     /**
